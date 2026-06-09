@@ -1392,6 +1392,7 @@ GameObject:
   - component: {fileID: 1112312085}
   - component: {fileID: 1112312086}
   - component: {fileID: 1112312087}
+  - component: {fileID: 1112312088}
   m_Layer: 0
   m_Name: NetworkManager
   m_TagString: Untagged
@@ -1447,7 +1448,7 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 35e183342275fff448d00798a30577d6, type: 3}
   m_Name: 
   m_EditorClassIdentifier: Assembly-CSharp::LobbyManager
-  networkDiscovery: {fileID: 1112312086}
+  networkDiscovery: {fileID: 1112312088}
   mainMenuPanel: {fileID: 1736548736}
   lobbyListPanel: {fileID: 1467876141}
   lobbyListContent: {fileID: 1924979429}
@@ -1464,10 +1465,6 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 2c293fbd08e5b024a88dbb0f350b607b, type: 3}
   m_Name: 
   m_EditorClassIdentifier: Assembly-CSharp::FishNet.Discovery.NetworkDiscovery
-  secret: mylobby
-  port: 7778
-  searchTimeout: 3
-  automatic: 0
 --- !u!114 &1112312087
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -1487,6 +1484,22 @@ MonoBehaviour:
   _dontDestroyOnLoad: 1
   _objectPool: {fileID: 0}
   _persistence: 0
+--- !u!114 &1112312088
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 1112312082}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 358ee59582ac20b4090d101428696054, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: Assembly-CSharp::FishNet.Discovery.NetworkDiscovery
+  secret: mylobby
+  port: 7778
+  searchTimeout: 3
+  automatic: 0
 --- !u!1 &1147138623
 GameObject:
   m_ObjectHideFlags: 0
