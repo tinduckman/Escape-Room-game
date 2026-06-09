@@ -20,6 +20,8 @@ public class LobbyManager : MonoBehaviour
     public Transform lobbyListContent;
     public GameObject lobbyEntryPrefab;
 
+    private bool _isHosting = false;
+
     private void OnEnable()
     {
         networkDiscovery.ServerFoundCallback += OnServerFound;
@@ -35,14 +37,22 @@ public class LobbyManager : MonoBehaviour
 
     private void OnServerConnectionState(ServerConnectionStateArgs args)
     {
+        if (!_isHosting) return;
+
         if (args.ConnectionState == LocalConnectionState.Started)
         {
             networkDiscovery.AdvertiseServer();
+            Debug.Log("Server started and advertising.");
+        }
+        else if (args.ConnectionState == LocalConnectionState.Stopped)
+        {
+            Debug.Log("Server stopped.");
         }
     }
 
     public void OnHostClicked()
     {
+        _isHosting = true;
         InstanceFinder.ServerManager.StartConnection();
         InstanceFinder.ClientManager.StartConnection("localhost");
         if (mainMenuPanel != null)
@@ -55,8 +65,10 @@ public class LobbyManager : MonoBehaviour
             Destroy(child.gameObject);
 
         networkDiscovery.SearchForServers();
-        mainMenuPanel.SetActive(false);
-        lobbyListPanel.SetActive(true);
+        if (mainMenuPanel != null)
+            mainMenuPanel.SetActive(false);
+        if (lobbyListPanel != null)
+            lobbyListPanel.SetActive(true);
     }
 
     private void OnServerFound(IPEndPoint endPoint)
@@ -72,12 +84,23 @@ public class LobbyManager : MonoBehaviour
     {
         networkDiscovery.StopSearchingOrAdvertising();
         InstanceFinder.ClientManager.StartConnection(endPoint.Address.ToString());
+        if (lobbyListPanel != null)
+            lobbyListPanel.SetActive(false);
     }
 
     public void OnBackClicked()
     {
         networkDiscovery.StopSearchingOrAdvertising();
-        lobbyListPanel.SetActive(false);
-        mainMenuPanel.SetActive(true);
+        if (lobbyListPanel != null)
+            lobbyListPanel.SetActive(false);
+        if (mainMenuPanel != null)
+            mainMenuPanel.SetActive(true);
+    }
+
+    private void Update()
+    {
+        if (_isHosting && InstanceFinder.IsServerStarted)
+            Debug.Log("Server running. Connected clients: " +
+                InstanceFinder.ServerManager.Clients.Count);
     }
 }
