@@ -59,6 +59,8 @@ public class LobbyManager : MonoBehaviour
             mainMenuPanel.SetActive(false);
     }
 
+
+
     public void OnFindGamesClicked()
     {
         foreach (Transform child in lobbyListContent)
