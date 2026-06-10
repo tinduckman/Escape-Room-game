@@ -1733,10 +1733,10 @@ MonoBehaviour:
   m_GameObject: {fileID: 1112312082}
   m_Enabled: 1
   m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: c3de63caee67d1e458f70b64646e6764, type: 3}
+  m_Script: {fileID: 11500000, guid: 358ee59582ac20b4090d101428696054, type: 3}
   m_Name: 
   m_EditorClassIdentifier: Assembly-CSharp::FishNet.Discovery.NetworkDiscovery
-  secret: myLobby
+  secret: mylobby
   port: 7778
   searchTimeout: 3
   automatic: 0
@@ -2580,7 +2580,7 @@ RectTransform:
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
   m_AnchorMin: {x: 0.5, y: 0.5}
   m_AnchorMax: {x: 0.5, y: 0.5}
-  m_AnchoredPosition: {x: -241, y: -161}
+  m_AnchoredPosition: {x: -391.2, y: -161}
   m_SizeDelta: {x: 160, y: 30}
   m_Pivot: {x: 0.5, y: 0.5}
 --- !u!114 &1800164232
