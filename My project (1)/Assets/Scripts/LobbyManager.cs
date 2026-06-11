@@ -78,12 +78,13 @@ public class LobbyManager : MonoBehaviour
         foreach (Transform child in lobbyListContent)
             Destroy(child.gameObject);
 
-        networkDiscovery.SearchForServers();
         if (mainMenuPanel != null)
             mainMenuPanel.SetActive(false);
+
         if (lobbyListPanel != null)
-            networkDiscovery.StopSearchingOrAdvertising(); // Clear previous searches
-        lobbyListPanel.SetActive(true);
+            lobbyListPanel.SetActive(true);
+
+        networkDiscovery.SearchForServers();
     }
 
     private void OnServerFound(IPEndPoint endPoint)
