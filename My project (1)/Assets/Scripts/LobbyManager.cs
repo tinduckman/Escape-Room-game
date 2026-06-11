@@ -115,8 +115,11 @@ public class LobbyManager : MonoBehaviour
         if (!InstanceFinder.IsServerStarted) return;
 
       
-        SceneLoadData sld = new SceneLoadData("Game");
+        SceneLoadData sld = new SceneLoadData("Scenes/Game");
         InstanceFinder.SceneManager.LoadGlobalScenes(sld);
+        
+        if (lobbyRoomPanel != null)
+            lobbyRoomPanel.SetActive(false);
     }
 
     public void OnBackClicked()
