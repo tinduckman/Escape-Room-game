@@ -1,5 +1,7 @@
 using System.Collections.Generic;
 using System.Net;
+using System.Net.NetworkInformation;
+using System.Net.Sockets;
 using UnityEngine;
 using UnityEngine.UI;
 using TMPro;
@@ -49,7 +51,6 @@ public class LobbyManager : MonoBehaviour
             networkDiscovery.AdvertiseServer();
             Debug.Log("Server started and advertising.");
 
-            // Shows the lobby room panel and enable the Start Game button for the Host
             if (lobbyRoomPanel != null) lobbyRoomPanel.SetActive(true);
             if (startGameButton != null) startGameButton.gameObject.SetActive(true);
         }
@@ -59,15 +60,31 @@ public class LobbyManager : MonoBehaviour
         }
     }
 
+    private string GetLocalIPAddress()
+    {
+        foreach (NetworkInterface ni in NetworkInterface.GetAllNetworkInterfaces())
+        {
+            if (ni.OperationalStatus != OperationalStatus.Up) continue;
+            if (ni.NetworkInterfaceType == NetworkInterfaceType.Loopback) continue;
+
+            foreach (UnicastIPAddressInformation ip in ni.GetIPProperties().UnicastAddresses)
+            {
+                if (ip.Address.AddressFamily == AddressFamily.InterNetwork)
+                    return ip.Address.ToString();
+            }
+        }
+        return "localhost";
+    }
+
     public void OnHostClicked()
     {
         _isHosting = true;
 
-        if (startGameButton != null)
-            startGameButton.gameObject.SetActive(true);
+        string localIP = GetLocalIPAddress();
+        Debug.Log("Hosting on IP: " + localIP);
 
         InstanceFinder.ServerManager.StartConnection();
-        InstanceFinder.ClientManager.StartConnection("localhost");
+        InstanceFinder.ClientManager.StartConnection(localIP);
 
         if (mainMenuPanel != null)
             mainMenuPanel.SetActive(false);
@@ -89,7 +106,6 @@ public class LobbyManager : MonoBehaviour
 
     private void OnServerFound(IPEndPoint endPoint)
     {
-        // Keep searching so multiple servers can be listed, instead of stopping instantly
         GameObject entry = Instantiate(lobbyEntryPrefab, lobbyListContent);
         entry.GetComponentInChildren<TMP_Text>().text = endPoint.Address.ToString();
         entry.GetComponentInChildren<Button>().onClick.AddListener(() => JoinServer(endPoint));
@@ -114,10 +130,9 @@ public class LobbyManager : MonoBehaviour
     {
         if (!InstanceFinder.IsServerStarted) return;
 
-      
-        SceneLoadData sld = new SceneLoadData("Scenes/Game");
+        SceneLoadData sld = new SceneLoadData("Game");
         InstanceFinder.SceneManager.LoadGlobalScenes(sld);
-        
+
         if (lobbyRoomPanel != null)
             lobbyRoomPanel.SetActive(false);
     }
@@ -125,18 +140,13 @@ public class LobbyManager : MonoBehaviour
     public void OnBackClicked()
     {
         networkDiscovery.StopSearchingOrAdvertising();
+        _isHosting = false;
+
         if (lobbyListPanel != null)
             lobbyListPanel.SetActive(false);
         if (lobbyRoomPanel != null)
             lobbyRoomPanel.SetActive(false);
         if (mainMenuPanel != null)
             mainMenuPanel.SetActive(true);
-    }
-
-    private void Update()
-    {
-        if (_isHosting && InstanceFinder.IsServerStarted)
-            Debug.Log("Server running. Connected clients: " +
-                InstanceFinder.ServerManager.Clients.Count);
     }
 }
