@@ -15,6 +15,9 @@ public class LobbyManager : MonoBehaviour
     [Header("References")]
     public NetworkDiscovery networkDiscovery;
 
+    [Header("Voice/Chat Reference")]
+    public VivoxVoiceManager voiceManager;
+
     [Header("UI Panels")]
     public GameObject mainMenuPanel;
     public GameObject lobbyListPanel;
@@ -28,6 +31,23 @@ public class LobbyManager : MonoBehaviour
     public Button startGameButton;
 
     private bool _isHosting = false;
+
+    private void Start()
+    {
+        if (voiceManager == null)
+        {
+            voiceManager = FindFirstObjectByType<VivoxVoiceManager>();
+
+            if (voiceManager != null)
+            {
+                Debug.Log("LobbyManager: Found missing VivoxVoiceManager reference automatically!");
+            }
+            else
+            {
+                Debug.LogError("LobbyManager: Critical Error - Could not find VivoxVoiceManager anywhere in the scene!");
+            }
+        }
+    }
 
     private void OnEnable()
     {
@@ -50,6 +70,11 @@ public class LobbyManager : MonoBehaviour
         {
             networkDiscovery.AdvertiseServer();
             Debug.Log("Server started and advertising.");
+
+            if (voiceManager != null)
+            {
+                voiceManager.JoinVoiceChat();
+            }
 
             if (lobbyRoomPanel != null) lobbyRoomPanel.SetActive(true);
             if (startGameButton != null) startGameButton.gameObject.SetActive(true);
@@ -99,7 +124,7 @@ public class LobbyManager : MonoBehaviour
             mainMenuPanel.SetActive(false);
 
         if (lobbyListPanel != null)
-            lobbyListPanel.SetActive(true);
+            ui_ShowLobbyListPanel(true);
 
         networkDiscovery.SearchForServers();
     }
@@ -115,6 +140,16 @@ public class LobbyManager : MonoBehaviour
     {
         networkDiscovery.StopSearchingOrAdvertising();
         InstanceFinder.ClientManager.StartConnection(endPoint.Address.ToString());
+
+        if (voiceManager == null)
+        {
+            voiceManager = FindFirstObjectByType<VivoxVoiceManager>();
+        }
+
+        if (voiceManager != null)
+        {
+            voiceManager.JoinVoiceChat();
+        }
 
         if (lobbyListPanel != null)
             lobbyListPanel.SetActive(false);
@@ -142,11 +177,21 @@ public class LobbyManager : MonoBehaviour
         networkDiscovery.StopSearchingOrAdvertising();
         _isHosting = false;
 
+        if (voiceManager != null)
+        {
+            voiceManager.LeaveVoiceChat();
+        }
+
         if (lobbyListPanel != null)
             lobbyListPanel.SetActive(false);
         if (lobbyRoomPanel != null)
             lobbyRoomPanel.SetActive(false);
         if (mainMenuPanel != null)
             mainMenuPanel.SetActive(true);
+    }
+
+    private void ui_ShowLobbyListPanel(bool keepActive)
+    {
+        lobbyListPanel.SetActive(keepActive);
     }
 }
