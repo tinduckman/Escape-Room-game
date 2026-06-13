@@ -811,7 +811,7 @@ GameObject:
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
   m_StaticEditorFlags: 0
-  m_IsActive: 0
+  m_IsActive: 1
 --- !u!143 &569615124
 CharacterController:
   m_ObjectHideFlags: 0
@@ -1664,7 +1664,7 @@ MonoBehaviour:
   uiPanel: {fileID: 1829008767}
   player: {fileID: 2045092827}
   playerCam: {fileID: 1333168224}
-  interactDistance: 10
+  interactDistance: 3
   hintText: {fileID: 1695291176}
 --- !u!65 &796085133
 BoxCollider:
@@ -1998,7 +1998,7 @@ MonoBehaviour:
   uiPanel: {fileID: 1777056997}
   player: {fileID: 2045092827}
   playerCam: {fileID: 1333168224}
-  interactDistance: 10
+  interactDistance: 3
   hintText: {fileID: 1695291176}
 --- !u!65 &914046693
 BoxCollider:
@@ -4445,7 +4445,7 @@ RectTransform:
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
   m_AnchorMin: {x: 0, y: 1}
   m_AnchorMax: {x: 0, y: 1}
-  m_AnchoredPosition: {x: 181.46037, y: -195.29982}
+  m_AnchoredPosition: {x: 181.46037, y: -329.4992}
   m_SizeDelta: {x: 350, y: 15}
   m_Pivot: {x: 0.5, y: 0.5}
 --- !u!114 &1797730177
