@@ -1,51 +1,66 @@
 using UnityEngine;
+using UnityEngine.UI;
 using TMPro;
 
-public class InteractableView : MonoBehaviour
+public class LeverPanel : MonoBehaviour
 {
     public GameObject uiPanel;
-    public Transform player;
     public Camera playerCam;
     public float interactDistance = 5f;
     public TextMeshProUGUI hintText;
 
-    static bool isViewing = false;
-    static InteractableView current;
+    public Slider latSlider;
+    public Slider altSlider;
+    public Slider windSlider;
+    public LatAlt latAlt;
 
-    PlayerMovement playerMovement;
-    MouseLook mouseLook;
+    static bool isOpen = false;
+    MouseLook1 mouseLook;
 
     void Start()
     {
-        playerMovement = player.GetComponent<PlayerMovement>();
-        mouseLook = playerCam.GetComponent<MouseLook>();
+        mouseLook = playerCam.GetComponent<MouseLook1>();
         uiPanel.SetActive(false);
         if (hintText != null) hintText.gameObject.SetActive(false);
+
+        latSlider.minValue = 0f;
+        latSlider.maxValue = 120f;
+        latSlider.value = 60f;
+
+        altSlider.minValue = 0f;
+        altSlider.maxValue = 120f;
+        altSlider.value = 60f;
+
+        windSlider.minValue = 30f;
+        windSlider.maxValue = 120f;
+        windSlider.wholeNumbers = true;
+        windSlider.value = 75f;
+
+        latSlider.onValueChanged.AddListener(OnLatChanged);
+        altSlider.onValueChanged.AddListener(OnAltChanged);
+        windSlider.onValueChanged.AddListener(OnWindChanged);
     }
 
     void Update()
     {
-        if (isViewing && current == this)
+        if (isOpen)
         {
-            if (Input.GetKeyDown(KeyCode.E))
-                StopViewing();
+            if (Input.GetKeyDown(KeyCode.E)) ClosePanel();
             return;
         }
-
-        if (isViewing) return;
 
         Ray ray = new Ray(playerCam.transform.position, playerCam.transform.forward);
         RaycastHit hit;
 
         if (Physics.Raycast(ray, out hit, interactDistance))
         {
-            if (hit.transform.name == transform.name || hit.transform.IsChildOf(transform))
+            if (hit.transform == transform)
             {
                 if (hintText != null) hintText.gameObject.SetActive(true);
                 if (Input.GetKeyDown(KeyCode.E))
                 {
                     if (hintText != null) hintText.gameObject.SetActive(false);
-                    StartViewing();
+                    OpenPanel();
                 }
             }
             else
@@ -59,23 +74,35 @@ public class InteractableView : MonoBehaviour
         }
     }
 
-    void StartViewing()
+    void OnLatChanged(float val)
     {
-        isViewing = true;
-        current = this;
+        latAlt.AdjustLat(val);
+    }
+
+    void OnAltChanged(float val)
+    {
+        latAlt.AdjustAlt(val);
+    }
+
+    void OnWindChanged(float val)
+    {
+        latAlt.AdjustWind((int)val);
+    }
+
+    void OpenPanel()
+    {
+        isOpen = true;
         uiPanel.SetActive(true);
-        playerMovement.enabled = false;
+        Debug.Log("mouseLook is: " + mouseLook);
         mouseLook.enabled = false;
         Cursor.lockState = CursorLockMode.None;
         Cursor.visible = true;
     }
 
-    void StopViewing()
+    void ClosePanel()
     {
-        isViewing = false;
-        current = null;
+        isOpen = false;
         uiPanel.SetActive(false);
-        playerMovement.enabled = true;
         mouseLook.enabled = true;
         Cursor.lockState = CursorLockMode.Locked;
         Cursor.visible = false;
