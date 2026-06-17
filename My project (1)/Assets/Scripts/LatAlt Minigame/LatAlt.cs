@@ -1,5 +1,4 @@
 using UnityEngine;
-using static UnityEngine.Audio.ControlContext;
 
 public class LatAlt : MonoBehaviour
 {
@@ -39,8 +38,7 @@ public class LatAlt : MonoBehaviour
         playerLat = val;
         playerAlt = Mathf.Clamp(playerAlt + Random.Range(-NUDGE, NUDGE), 0f, 120f);
         playerWind = (int)Mathf.Clamp(playerWind + (Random.value > 0.5f ? 1 : -1), 30, 120);
-        console.Log("Lat: " + playerLat.ToString("F1"));
-        LogDiffs();
+        LogValues();
         CheckWin();
     }
 
@@ -49,8 +47,7 @@ public class LatAlt : MonoBehaviour
         playerAlt = val;
         playerLat = Mathf.Clamp(playerLat + Random.Range(-NUDGE, NUDGE), 0f, 120f);
         playerWind = (int)Mathf.Clamp(playerWind + (Random.value > 0.5f ? 1 : -1), 30, 120);
-        console.Log("Alt: " + playerAlt.ToString("F1"));
-        LogDiffs();
+        LogValues();
         CheckWin();
     }
 
@@ -59,16 +56,15 @@ public class LatAlt : MonoBehaviour
         playerWind = val;
         playerLat = Mathf.Clamp(playerLat + Random.Range(-NUDGE, NUDGE), 0f, 120f);
         playerAlt = Mathf.Clamp(playerAlt + Random.Range(-NUDGE, NUDGE), 0f, 120f);
-        console.Log("Wind: " + playerWind);
-        LogDiffs();
+        LogValues();
         CheckWin();
     }
 
-    void LogDiffs()
+    void LogValues()
     {
-        console.Log("Lat diff: " + Mathf.Abs(playerLat - correctLat).ToString("F1"));
-        console.Log("Alt diff: " + Mathf.Abs(playerAlt - correctAlt).ToString("F1"));
-        console.Log("Wind diff: " + Mathf.Abs(playerWind - correctWind));
+        console.Log("Lat: " + playerLat.ToString("F1"));
+        console.Log("Alt: " + playerAlt.ToString("F1"));
+        console.Log("Wind: " + playerWind);
     }
 
     void CheckWin()
@@ -80,6 +76,4 @@ public class LatAlt : MonoBehaviour
             console.Log("MINIGAME COMPLETE");
         }
     }
-
-
 }

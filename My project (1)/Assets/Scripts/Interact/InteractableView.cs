@@ -5,21 +5,24 @@ public class InteractableView : MonoBehaviour
 {
     public GameObject uiPanel;
     public Transform player;
+    public Camera playerCam;
     public float interactDistance = 5f;
     public TextMeshProUGUI hintText;
+    public AudioClip openSound;
+    public AudioClip closeSound;
 
     static bool isViewing = false;
     static InteractableView current;
 
-    Transform playerCamera;
     PlayerMovement playerMovement;
     MouseLook mouseLook;
+    AudioSource audioSource;
 
     void Start()
     {
-        playerCamera = Camera.main.transform;
         playerMovement = player.GetComponent<PlayerMovement>();
-        mouseLook = playerCamera.GetComponent<MouseLook>();
+        mouseLook = playerCam.GetComponent<MouseLook>();
+        audioSource = GetComponent<AudioSource>();
         uiPanel.SetActive(false);
         if (hintText != null) hintText.gameObject.SetActive(false);
     }
@@ -35,12 +38,12 @@ public class InteractableView : MonoBehaviour
 
         if (isViewing) return;
 
-        Ray ray = new Ray(playerCamera.position, playerCamera.forward);
+        Ray ray = new Ray(playerCam.transform.position, playerCam.transform.forward);
         RaycastHit hit;
 
         if (Physics.Raycast(ray, out hit, interactDistance))
         {
-            if (hit.transform == transform)
+            if (hit.transform.name == transform.name || hit.transform.IsChildOf(transform))
             {
                 if (hintText != null) hintText.gameObject.SetActive(true);
                 if (Input.GetKeyDown(KeyCode.E))
@@ -69,6 +72,8 @@ public class InteractableView : MonoBehaviour
         mouseLook.enabled = false;
         Cursor.lockState = CursorLockMode.None;
         Cursor.visible = true;
+        if (audioSource != null && openSound != null)
+            audioSource.PlayOneShot(openSound);
     }
 
     void StopViewing()
@@ -80,5 +85,7 @@ public class InteractableView : MonoBehaviour
         mouseLook.enabled = true;
         Cursor.lockState = CursorLockMode.Locked;
         Cursor.visible = false;
+        if (audioSource != null && closeSound != null)
+            audioSource.PlayOneShot(closeSound);
     }
 }
