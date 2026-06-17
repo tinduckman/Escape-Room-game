@@ -8,17 +8,21 @@ public class InteractableView : MonoBehaviour
     public Camera playerCam;
     public float interactDistance = 5f;
     public TextMeshProUGUI hintText;
+    public AudioClip openSound;
+    public AudioClip closeSound;
 
     static bool isViewing = false;
     static InteractableView current;
 
     PlayerMovement playerMovement;
     MouseLook mouseLook;
+    AudioSource audioSource;
 
     void Start()
     {
         playerMovement = player.GetComponent<PlayerMovement>();
         mouseLook = playerCam.GetComponent<MouseLook>();
+        audioSource = GetComponent<AudioSource>();
         uiPanel.SetActive(false);
         if (hintText != null) hintText.gameObject.SetActive(false);
     }
@@ -68,6 +72,8 @@ public class InteractableView : MonoBehaviour
         mouseLook.enabled = false;
         Cursor.lockState = CursorLockMode.None;
         Cursor.visible = true;
+        if (audioSource != null && openSound != null)
+            audioSource.PlayOneShot(openSound);
     }
 
     void StopViewing()
@@ -79,5 +85,7 @@ public class InteractableView : MonoBehaviour
         mouseLook.enabled = true;
         Cursor.lockState = CursorLockMode.Locked;
         Cursor.visible = false;
+        if (audioSource != null && closeSound != null)
+            audioSource.PlayOneShot(closeSound);
     }
 }
