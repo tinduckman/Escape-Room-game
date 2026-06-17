@@ -1,5 +1,7 @@
 using System.Collections.Generic;
 using System.Net;
+using System.Net.NetworkInformation;
+using System.Net.Sockets;
 using UnityEngine;
 using UnityEngine.UI;
 using TMPro;
@@ -12,6 +14,9 @@ public class LobbyManager : MonoBehaviour
 {
     [Header("References")]
     public NetworkDiscovery networkDiscovery;
+
+    [Header("Voice/Chat Reference")]
+    public VivoxVoiceManager voiceManager;
 
     [Header("UI Panels")]
     public GameObject mainMenuPanel;
@@ -26,6 +31,23 @@ public class LobbyManager : MonoBehaviour
     public Button startGameButton;
 
     private bool _isHosting = false;
+
+    private void Start()
+    {
+        if (voiceManager == null)
+        {
+            voiceManager = FindFirstObjectByType<VivoxVoiceManager>();
+
+            if (voiceManager != null)
+            {
+                Debug.Log("LobbyManager: Found missing VivoxVoiceManager reference automatically!");
+            }
+            else
+            {
+                Debug.LogError("LobbyManager: Critical Error - Could not find VivoxVoiceManager anywhere in the scene!");
+            }
+        }
+    }
 
     private void OnEnable()
     {
@@ -49,7 +71,11 @@ public class LobbyManager : MonoBehaviour
             networkDiscovery.AdvertiseServer();
             Debug.Log("Server started and advertising.");
 
-            // Shows the lobby room panel and enable the Start Game button for the Host
+            if (voiceManager != null)
+            {
+                voiceManager.JoinVoiceChat();
+            }
+
             if (lobbyRoomPanel != null) lobbyRoomPanel.SetActive(true);
             if (startGameButton != null) startGameButton.gameObject.SetActive(true);
         }
@@ -59,15 +85,31 @@ public class LobbyManager : MonoBehaviour
         }
     }
 
+    private string GetLocalIPAddress()
+    {
+        foreach (NetworkInterface ni in NetworkInterface.GetAllNetworkInterfaces())
+        {
+            if (ni.OperationalStatus != OperationalStatus.Up) continue;
+            if (ni.NetworkInterfaceType == NetworkInterfaceType.Loopback) continue;
+
+            foreach (UnicastIPAddressInformation ip in ni.GetIPProperties().UnicastAddresses)
+            {
+                if (ip.Address.AddressFamily == AddressFamily.InterNetwork)
+                    return ip.Address.ToString();
+            }
+        }
+        return "localhost";
+    }
+
     public void OnHostClicked()
     {
         _isHosting = true;
 
-        if (startGameButton != null)
-            startGameButton.gameObject.SetActive(true);
+        string localIP = GetLocalIPAddress();
+        Debug.Log("Hosting on IP: " + localIP);
 
         InstanceFinder.ServerManager.StartConnection();
-        InstanceFinder.ClientManager.StartConnection("localhost");
+        InstanceFinder.ClientManager.StartConnection(localIP);
 
         if (mainMenuPanel != null)
             mainMenuPanel.SetActive(false);
@@ -82,14 +124,13 @@ public class LobbyManager : MonoBehaviour
             mainMenuPanel.SetActive(false);
 
         if (lobbyListPanel != null)
-            lobbyListPanel.SetActive(true);
+            ui_ShowLobbyListPanel(true);
 
         networkDiscovery.SearchForServers();
     }
 
     private void OnServerFound(IPEndPoint endPoint)
     {
-        // Keep searching so multiple servers can be listed, instead of stopping instantly
         GameObject entry = Instantiate(lobbyEntryPrefab, lobbyListContent);
         entry.GetComponentInChildren<TMP_Text>().text = endPoint.Address.ToString();
         entry.GetComponentInChildren<Button>().onClick.AddListener(() => JoinServer(endPoint));
@@ -99,6 +140,16 @@ public class LobbyManager : MonoBehaviour
     {
         networkDiscovery.StopSearchingOrAdvertising();
         InstanceFinder.ClientManager.StartConnection(endPoint.Address.ToString());
+
+        if (voiceManager == null)
+        {
+            voiceManager = FindFirstObjectByType<VivoxVoiceManager>();
+        }
+
+        if (voiceManager != null)
+        {
+            voiceManager.JoinVoiceChat();
+        }
 
         if (lobbyListPanel != null)
             lobbyListPanel.SetActive(false);
@@ -114,10 +165,9 @@ public class LobbyManager : MonoBehaviour
     {
         if (!InstanceFinder.IsServerStarted) return;
 
-      
-        SceneLoadData sld = new SceneLoadData("Scenes/Game");
+        SceneLoadData sld = new SceneLoadData("Game");
         InstanceFinder.SceneManager.LoadGlobalScenes(sld);
-        
+
         if (lobbyRoomPanel != null)
             lobbyRoomPanel.SetActive(false);
     }
@@ -125,6 +175,13 @@ public class LobbyManager : MonoBehaviour
     public void OnBackClicked()
     {
         networkDiscovery.StopSearchingOrAdvertising();
+        _isHosting = false;
+
+        if (voiceManager != null)
+        {
+            voiceManager.LeaveVoiceChat();
+        }
+
         if (lobbyListPanel != null)
             lobbyListPanel.SetActive(false);
         if (lobbyRoomPanel != null)
@@ -133,10 +190,8 @@ public class LobbyManager : MonoBehaviour
             mainMenuPanel.SetActive(true);
     }
 
-    private void Update()
+    private void ui_ShowLobbyListPanel(bool keepActive)
     {
-        if (_isHosting && InstanceFinder.IsServerStarted)
-            Debug.Log("Server running. Connected clients: " +
-                InstanceFinder.ServerManager.Clients.Count);
+        lobbyListPanel.SetActive(keepActive);
     }
 }
