@@ -14,7 +14,7 @@ public class LeverPanel : MonoBehaviour
     public Slider windSlider;
     public LatAlt latAlt;
 
-    static bool isOpen = false;
+    bool isOpen = false; // FIXED: was static, now per-instance
     MouseLook1 mouseLook;
 
     void Start()
@@ -74,26 +74,14 @@ public class LeverPanel : MonoBehaviour
         }
     }
 
-    void OnLatChanged(float val)
-    {
-        latAlt.AdjustLat(val);
-    }
-
-    void OnAltChanged(float val)
-    {
-        latAlt.AdjustAlt(val);
-    }
-
-    void OnWindChanged(float val)
-    {
-        latAlt.AdjustWind((int)val);
-    }
+    void OnLatChanged(float val) => latAlt.AdjustLat(val);
+    void OnAltChanged(float val) => latAlt.AdjustAlt(val);
+    void OnWindChanged(float val) => latAlt.AdjustWind((int)val);
 
     void OpenPanel()
     {
         isOpen = true;
         uiPanel.SetActive(true);
-        Debug.Log("mouseLook is: " + mouseLook);
         mouseLook.enabled = false;
         Cursor.lockState = CursorLockMode.None;
         Cursor.visible = true;

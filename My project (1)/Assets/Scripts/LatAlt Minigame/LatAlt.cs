@@ -6,8 +6,8 @@ public class LatAlt : MonoBehaviour
     int correctWind;
     float playerLat, playerAlt;
     int playerWind;
-    bool manualFound = false;
     const float NUDGE = 0.3f;
+
     public ConsoleMonitor console;
     public Manual manual;
 
@@ -20,17 +20,10 @@ public class LatAlt : MonoBehaviour
         playerAlt = 60f;
         playerWind = 75;
 
-        FindManual();
+        manual.Reveal(correctLat, correctAlt, correctWind);
 
         console.Log("GAME START");
         console.Log("P1: Adjust the levers");
-    }
-
-    void FindManual()
-    {
-        manualFound = true;
-        manual.Reveal(correctLat, correctAlt, correctWind);
-        Debug.Log("FindManual called! Lat: " + correctLat + " Alt: " + correctAlt + " Wind: " + correctWind);
     }
 
     public void AdjustLat(float val)
