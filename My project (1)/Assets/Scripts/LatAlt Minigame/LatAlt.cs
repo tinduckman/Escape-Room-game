@@ -62,8 +62,8 @@ public class LatAlt : MonoBehaviour
 
     void CheckWin()
     {
-        if (Mathf.Abs(playerLat - correctLat) < 0.5f &&
-            Mathf.Abs(playerAlt - correctAlt) < 0.5f &&
+        if (Mathf.Abs(playerLat - correctLat) < 0.9f &&
+            Mathf.Abs(playerAlt - correctAlt) < 0.9f &&
             Mathf.Abs(playerWind - correctWind) <= 1)
         {
             console.Log("MINIGAME COMPLETE");
