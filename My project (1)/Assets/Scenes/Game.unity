@@ -360,7 +360,7 @@ MonoBehaviour:
   m_OnCullStateChanged:
     m_PersistentCalls:
       m_Calls: []
-  m_text: New Text
+  m_text: 'Altitude: 70,4'
   m_isRightToLeft: 0
   m_fontAsset: {fileID: 11400000, guid: 8f586378b4e144a9851e7b34d9b748ee, type: 2}
   m_sharedMaterial: {fileID: 2180264, guid: 8f586378b4e144a9851e7b34d9b748ee, type: 2}
@@ -1857,31 +1857,31 @@ PrefabInstance:
       objectReference: {fileID: 0}
     - target: {fileID: -8679921383154817045, guid: b4b8886fe14f8694f876375891bf74fe, type: 3}
       propertyPath: m_LocalPosition.x
-      value: -307.14316
+      value: -410.609
       objectReference: {fileID: 0}
     - target: {fileID: -8679921383154817045, guid: b4b8886fe14f8694f876375891bf74fe, type: 3}
       propertyPath: m_LocalPosition.y
-      value: 37.561
+      value: 143.26
       objectReference: {fileID: 0}
     - target: {fileID: -8679921383154817045, guid: b4b8886fe14f8694f876375891bf74fe, type: 3}
       propertyPath: m_LocalPosition.z
-      value: -562.73676
+      value: 71.788
       objectReference: {fileID: 0}
     - target: {fileID: -8679921383154817045, guid: b4b8886fe14f8694f876375891bf74fe, type: 3}
       propertyPath: m_LocalRotation.w
-      value: 0.08237644
+      value: 0.32112685
       objectReference: {fileID: 0}
     - target: {fileID: -8679921383154817045, guid: b4b8886fe14f8694f876375891bf74fe, type: 3}
       propertyPath: m_LocalRotation.x
-      value: -0.082376495
+      value: -0.321127
       objectReference: {fileID: 0}
     - target: {fileID: -8679921383154817045, guid: b4b8886fe14f8694f876375891bf74fe, type: 3}
       propertyPath: m_LocalRotation.y
-      value: 0.70229214
+      value: 0.62998223
       objectReference: {fileID: 0}
     - target: {fileID: -8679921383154817045, guid: b4b8886fe14f8694f876375891bf74fe, type: 3}
       propertyPath: m_LocalRotation.z
-      value: 0.702292
+      value: 0.6299821
       objectReference: {fileID: 0}
     - target: {fileID: -8679921383154817045, guid: b4b8886fe14f8694f876375891bf74fe, type: 3}
       propertyPath: m_LocalEulerAnglesHint.x
@@ -1893,7 +1893,7 @@ PrefabInstance:
       objectReference: {fileID: 0}
     - target: {fileID: -8679921383154817045, guid: b4b8886fe14f8694f876375891bf74fe, type: 3}
       propertyPath: m_LocalEulerAnglesHint.z
-      value: 166.62
+      value: 125.981
       objectReference: {fileID: 0}
     - target: {fileID: -7511558181221131132, guid: b4b8886fe14f8694f876375891bf74fe, type: 3}
       propertyPath: 'm_Materials.Array.data[0]'
@@ -1912,14 +1912,14 @@ PrefabInstance:
     m_AddedGameObjects: []
     m_AddedComponents:
     - targetCorrespondingSourceObject: {fileID: 919132149155446097, guid: b4b8886fe14f8694f876375891bf74fe, type: 3}
-      insertIndex: 1
-      addedObject: {fileID: 796085129}
-    - targetCorrespondingSourceObject: {fileID: 919132149155446097, guid: b4b8886fe14f8694f876375891bf74fe, type: 3}
       insertIndex: -1
       addedObject: {fileID: 796085133}
     - targetCorrespondingSourceObject: {fileID: 919132149155446097, guid: b4b8886fe14f8694f876375891bf74fe, type: 3}
       insertIndex: -1
       addedObject: {fileID: 796085137}
+    - targetCorrespondingSourceObject: {fileID: 919132149155446097, guid: b4b8886fe14f8694f876375891bf74fe, type: 3}
+      insertIndex: -1
+      addedObject: {fileID: 796085141}
   m_SourcePrefab: {fileID: 100100000, guid: b4b8886fe14f8694f876375891bf74fe, type: 3}
 --- !u!1001 &687530632
 PrefabInstance:
@@ -2231,25 +2231,6 @@ GameObject:
   m_CorrespondingSourceObject: {fileID: 919132149155446097, guid: b4b8886fe14f8694f876375891bf74fe, type: 3}
   m_PrefabInstance: {fileID: 662657202}
   m_PrefabAsset: {fileID: 0}
---- !u!114 &796085129
-MonoBehaviour:
-  m_ObjectHideFlags: 0
-  m_CorrespondingSourceObject: {fileID: 0}
-  m_PrefabInstance: {fileID: 0}
-  m_PrefabAsset: {fileID: 0}
-  m_GameObject: {fileID: 796085128}
-  m_Enabled: 1
-  m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: 9bc1e2ceaa284df4d9377690d73cd36d, type: 3}
-  m_Name: 
-  m_EditorClassIdentifier: Assembly-CSharp::InteractableView
-  uiPanel: {fileID: 1829008767}
-  player: {fileID: 2045092827}
-  playerCam: {fileID: 1333168224}
-  interactDistance: 3
-  hintText: {fileID: 1522256647}
-  openSound: {fileID: 8300000, guid: c39cef23a5c8212498aa2a3dc2cf0a9e, type: 3}
-  closeSound: {fileID: 8300000, guid: c39cef23a5c8212498aa2a3dc2cf0a9e, type: 3}
 --- !u!65 &796085133
 BoxCollider:
   m_ObjectHideFlags: 0
@@ -2368,6 +2349,25 @@ AudioSource:
     m_PreInfinity: 2
     m_PostInfinity: 2
     m_RotationOrder: 4
+--- !u!114 &796085141
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 796085128}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 7d0ffac8605320a40af0320bcbb97545, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: Assembly-CSharp::InteractableView1
+  uiPanel: {fileID: 1829008767}
+  player: {fileID: 569615125}
+  playerCam: {fileID: 835578393}
+  interactDistance: 10
+  hintText: {fileID: 1522256647}
+  openSound: {fileID: 8300000, guid: c39cef23a5c8212498aa2a3dc2cf0a9e, type: 3}
+  closeSound: {fileID: 8300000, guid: c39cef23a5c8212498aa2a3dc2cf0a9e, type: 3}
 --- !u!1 &835578388
 GameObject:
   m_ObjectHideFlags: 0
@@ -2518,7 +2518,7 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: a0d1808fc81c392449e13a84925e1334, type: 3}
   m_Name: 
   m_EditorClassIdentifier: Assembly-CSharp::MouseLook1
-  mouseSensitivity: 150
+  mouseSensitivity: 100
   playerBody: {fileID: 569615125}
   minYAngle: -90
   maxYAngle: 90
@@ -3369,7 +3369,7 @@ MonoBehaviour:
   m_OnCullStateChanged:
     m_PersistentCalls:
       m_Calls: []
-  m_text: New Text
+  m_text: 'Wind Angle: 97'
   m_isRightToLeft: 0
   m_fontAsset: {fileID: 11400000, guid: 8f586378b4e144a9851e7b34d9b748ee, type: 2}
   m_sharedMaterial: {fileID: 2180264, guid: 8f586378b4e144a9851e7b34d9b748ee, type: 2}
@@ -5046,6 +5046,8 @@ MonoBehaviour:
   m_EditorClassIdentifier: Assembly-CSharp::MouseLook
   mouseSensitivity: 200
   playerBody: {fileID: 2045092827}
+  minYAngle: -90
+  maxYAngle: 90
 --- !u!114 &1333168222
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -6858,7 +6860,7 @@ MonoBehaviour:
   m_OnCullStateChanged:
     m_PersistentCalls:
       m_Calls: []
-  m_text: New Text
+  m_text: Change the levers to see the values, the bottom values are the most accurate.
   m_isRightToLeft: 0
   m_fontAsset: {fileID: 11400000, guid: 8f586378b4e144a9851e7b34d9b748ee, type: 2}
   m_sharedMaterial: {fileID: 2180264, guid: 8f586378b4e144a9851e7b34d9b748ee, type: 2}
@@ -7129,7 +7131,7 @@ MonoBehaviour:
   m_OnCullStateChanged:
     m_PersistentCalls:
       m_Calls: []
-  m_text: New Text
+  m_text: 'Latitude: 31,8'
   m_isRightToLeft: 0
   m_fontAsset: {fileID: 11400000, guid: 8f586378b4e144a9851e7b34d9b748ee, type: 2}
   m_sharedMaterial: {fileID: 2180264, guid: 8f586378b4e144a9851e7b34d9b748ee, type: 2}
@@ -8055,9 +8057,9 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 6548fd4bea709184fab13ab6f59736bd, type: 3}
   m_Name: 
   m_EditorClassIdentifier: Assembly-CSharp::Manual
-  latText: {fileID: 1869263803}
-  altText: {fileID: 258307259}
-  windText: {fileID: 1037413886}
+  latText: {fileID: 0}
+  altText: {fileID: 0}
+  windText: {fileID: 0}
 --- !u!114 &2120563208
 MonoBehaviour:
   m_ObjectHideFlags: 0

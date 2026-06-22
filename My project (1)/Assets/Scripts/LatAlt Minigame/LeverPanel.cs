@@ -14,12 +14,12 @@ public class LeverPanel : MonoBehaviour
     public Slider windSlider;
     public LatAlt latAlt;
 
-    bool isOpen = false; // FIXED: was static, now per-instance
-    MouseLook1 mouseLook;
+    bool isOpen = false; 
+    MouseLook1 mouseLook1;
 
     void Start()
     {
-        mouseLook = playerCam.GetComponent<MouseLook1>();
+        mouseLook1 = playerCam.GetComponent<MouseLook1>();
         uiPanel.SetActive(false);
         if (hintText != null) hintText.gameObject.SetActive(false);
 
@@ -82,7 +82,7 @@ public class LeverPanel : MonoBehaviour
     {
         isOpen = true;
         uiPanel.SetActive(true);
-        mouseLook.enabled = false;
+        mouseLook1.enabled = false;
         Cursor.lockState = CursorLockMode.None;
         Cursor.visible = true;
     }
@@ -91,7 +91,7 @@ public class LeverPanel : MonoBehaviour
     {
         isOpen = false;
         uiPanel.SetActive(false);
-        mouseLook.enabled = true;
+        mouseLook1.enabled = true;
         Cursor.lockState = CursorLockMode.Locked;
         Cursor.visible = false;
     }

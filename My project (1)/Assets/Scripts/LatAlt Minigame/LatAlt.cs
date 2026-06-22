@@ -13,9 +13,9 @@ public class LatAlt : MonoBehaviour
 
     void Start()
     {
-        correctLat = Random.Range(0f, 120f);
-        correctAlt = Random.Range(0f, 120f);
-        correctWind = Random.Range(30, 121);
+        correctLat = 31.8f;
+        correctAlt = 70.4f;
+        correctWind = 97;
         playerLat = 60f;
         playerAlt = 60f;
         playerWind = 75;
